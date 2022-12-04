@@ -1,5 +1,3 @@
-fun String.toCharSet() = this.toCharArray().toSet()
-
 fun main() {
     val items = mutableSetOf<Char>()
     for (c in 'a'..'z') items.add(c)

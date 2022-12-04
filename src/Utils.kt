@@ -14,3 +14,11 @@ fun readInput(name: String) = File("src", "$name.txt")
 fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray()))
     .toString(16)
     .padStart(32, '0')
+
+/**
+ * Turn a string into CharArray, then into a set of its Chars
+ */
+fun String.toCharSet() = this.toCharArray().toSet()
+
+infix fun IntProgression.contains(that: IntProgression) = this.first <= that.first && this.last >= that.last
+infix fun IntProgression.overlaps(that: IntProgression) = this.first in that || this.last in that
