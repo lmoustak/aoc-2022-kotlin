@@ -1,3 +1,5 @@
+import kotlin.math.abs
+
 abstract class DirectoryItem(open val name: String, open val parent: Directory?) {
     abstract fun computeSize(): Int
 }
@@ -72,23 +74,35 @@ fun main() {
     }
 
     fun part1(input: List<String>): Int {
-        fun computeSize(directory: Directory): Int {
-            var totalSize = directory.computeSize()
-            for (child in directory.children.filterIsInstance<Directory>()) {
-                val size = computeSize(child)
-                if (size <= 100_000) totalSize += size
-            }
+        var totalSize = 0
 
-            return totalSize
+        fun computeSize(directory: Directory) {
+            val size = directory.computeSize()
+            if (size <= 100_000) totalSize += size
+
+            directory.children.filterIsInstance<Directory>().forEach { computeSize(it) }
         }
 
         val root = walk(input)
-
-        return computeSize(root)
+        computeSize(root)
+        return totalSize
     }
 
     fun part2(input: List<String>): Int {
-        return -1
+        val root = walk(input)
+        val spaceNeeded = abs(70_000_000 - 30_000_000 - root.computeSize())
+        val directories = mutableListOf<Pair<Directory, Int>>()
+
+        fun listDirectory(directory: Directory) {
+            directories += directory to directory.computeSize()
+            directory.children.filterIsInstance<Directory>().forEach { listDirectory(it) }
+        }
+
+        listDirectory(root)
+        return directories
+            .sortedByDescending { it.second }
+            .last { it.second >= spaceNeeded }
+            .second
     }
 
     val input = readInput("Day07")
