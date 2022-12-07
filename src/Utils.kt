@@ -22,3 +22,12 @@ fun String.toCharSet() = this.toCharArray().toSet()
 
 infix fun IntProgression.contains(that: IntProgression) = this.first <= that.first && this.last >= that.last
 infix fun IntProgression.overlaps(that: IntProgression) = this.first in that || this.last in that
+fun <T> MutableCollection<T>.addIfNotPresent(predicate: (T) -> Boolean, item: T): T {
+    var collectionItem = this.find(predicate)
+    if (collectionItem == null) {
+        this.add(item)
+        collectionItem = item
+    }
+
+    return collectionItem!!
+}
