@@ -1,4 +1,3 @@
-
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
@@ -9,12 +8,9 @@ fun main() {
         val horizontalDistance = tail.x - head.x
         val verticalDistance = tail.y - head.y
 
-        if (horizontalDistance.absoluteValue >= 2) {
-            tail.x = head.x + horizontalDistance.sign
-            if (verticalDistance.absoluteValue >= 1) tail.y -= verticalDistance.sign
-        } else if (verticalDistance.absoluteValue >= 2) {
-            tail.y = head.y + verticalDistance.sign
-            if (horizontalDistance.absoluteValue >= 1) tail.x -= horizontalDistance.sign
+        if (horizontalDistance.absoluteValue == 2 || verticalDistance.absoluteValue == 2) {
+            tail.x -= horizontalDistance.sign
+            tail.y -= verticalDistance.sign
         }
     }
 
